@@ -1,13 +1,18 @@
 // middleware/authMiddleware.js
 const jwt = require('jsonwebtoken');
+const _ = require('lodash');
 
 exports.authenticateJWT = (req, res, next) => {
     // Get token from request headers
-    const token = req.headers.Authorization;
+    const authHeader = _.get(req, 'headers.authorization');
+    console.log("first", authHeader)
 
-    if (!token) {
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
         return res.status(401).json({ message: "Unauthorized: No token provided" });
     }
+
+    // Extract token from header
+    const token = authHeader.split(' ')[1];
 
     // Verify JWT token
     jwt.verify(token, 'secret', (err, decoded) => {
@@ -15,7 +20,7 @@ exports.authenticateJWT = (req, res, next) => {
             return res.status(401).json({ message: "Unauthorized: Invalid token" });
         }
         // Token is valid, proceed to next middleware or route handler
-        req.userId = decoded.userId; // Optionally, you can attach the user ID to the request object
+        req.userId = _.get(decoded, 'userId'); // Optionally, you can attach the user ID to the request object
         next();
     });
 };
