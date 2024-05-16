@@ -3,11 +3,12 @@ const express = require('express');
 const mongoose = require('mongoose');
 const fileRoutes = require('./routes/fileRoutes');
 const authRoutes = require('./routes/authRoutes');
-
+require('dotenv').config()
 const app = express();
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/backendDB')
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/backendDB'
+mongoose.connect(MONGODB_URI)
     .then(() => console.log("Connected to MongoDB"))
     .catch(err => console.error("MongoDB connection error:", err));
 

@@ -14,7 +14,7 @@ exports.authenticateJWT = (req, res, next) => {
     const token = authHeader.split(' ')[1];
 
     // Verify JWT token
-    jwt.verify(token, 'secret', (err, decoded) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
         if (err) {
             return res.status(401).json({ message: "Unauthorized: Invalid token" });
         }
