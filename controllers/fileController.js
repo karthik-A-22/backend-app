@@ -1,27 +1,7 @@
 // controllers/fileController.js
-// controllers/fileController.js
-const multer = require('multer');
 const File = require('../models/File');
-const fs = require('fs');
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        const uploadDir = 'uploads/';
-        // Create uploads directory if it doesn't exist
-        if (!fs.existsSync(uploadDir)) {
-            fs.mkdirSync(uploadDir);
-        }
-        cb(null, uploadDir); // Save files to the 'uploads' directory
-    },
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + '-' + file.originalname) // Generate unique filenames
-    }
-});
-
-
-const upload = multer({ storage: storage });
-
-exports.uploadFile = upload.single('file'), async (req, res) => {
+exports.uploadFile = async (req, res) => {
     try {
         if (!req.file) {
             return res.status(400).json({ message: "No file uploaded" });
@@ -36,7 +16,6 @@ exports.uploadFile = upload.single('file'), async (req, res) => {
     }
 };
 
-
 exports.getFile = async (req, res) => {
     try {
         const filename = req.params.filename;
@@ -47,6 +26,16 @@ exports.getFile = async (req, res) => {
         res.setHeader('Content-Type', file.contentType);
         res.setHeader('Content-Disposition', `attachment; filename="${file.filename}"`);
         return res.send(file.data);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+exports.getAllFiles = async (req, res) => {
+    try {
+        const files = await File.find();
+        return res.status(200).json(files);
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Internal server error" });

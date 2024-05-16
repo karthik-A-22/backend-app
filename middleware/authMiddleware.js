@@ -5,7 +5,6 @@ const _ = require('lodash');
 exports.authenticateJWT = (req, res, next) => {
     // Get token from request headers
     const authHeader = _.get(req, 'headers.authorization');
-    console.log("first", authHeader)
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
         return res.status(401).json({ message: "Unauthorized: No token provided" });
