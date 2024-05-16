@@ -2,16 +2,22 @@
 // controllers/fileController.js
 const multer = require('multer');
 const File = require('../models/File');
+const fs = require('fs');
 
-// Multer configuration
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'uploads/') // Save files to the 'uploads' directory
+        const uploadDir = 'uploads/';
+        // Create uploads directory if it doesn't exist
+        if (!fs.existsSync(uploadDir)) {
+            fs.mkdirSync(uploadDir);
+        }
+        cb(null, uploadDir); // Save files to the 'uploads' directory
     },
     filename: function (req, file, cb) {
         cb(null, Date.now() + '-' + file.originalname) // Generate unique filenames
     }
 });
+
 
 const upload = multer({ storage: storage });
 
