@@ -63,6 +63,23 @@ The application follows a typical MVC (Model-View-Controller) architecture:
   }
   ```
 
+### Sentiment Analysis
+
+- **POST /api/sentiment**
+  - **Description**: Analyzes the sentiment of the provided text.
+  - **Request Body**:
+    ```json
+    {
+      "text": "your text here"
+    }
+    ```
+  - **Response**:
+    ```json
+    {
+      "sentiment": "positive" | "negative" | "neutral"
+    }
+    ```
+
 ## Local Setup
 
 To run this application locally, follow these steps:
@@ -70,7 +87,7 @@ To run this application locally, follow these steps:
 ### 1. Clone the Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/red-arrow-005/backend-app.git
 cd backend-server
 ```
 
