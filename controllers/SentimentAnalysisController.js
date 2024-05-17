@@ -1,20 +1,15 @@
 const SentimentAnalysisModel = require('../models/SentimentAnalysisModel');
 
-class SentimentAnalysisController {
-    constructor() {
-        this.model = new SentimentAnalysisModel();
-    }
-
-    analyzeSentiment(req, res) {
+exports.analyzeSentiment = (req, res) => {
+    try {
         const { text } = req.body;
-
         if (!text) {
-            return res.status(400).json({ error: 'Text input is required' });
+            return res.status(400).json({ message: 'Text is required' });
         }
-
-        const sentiment = this.model.analyzeSentiment(text);
-        res.json({ sentiment });
+        const sentiment = SentimentAnalysisModel.analyzeSentiment(text);
+        return res.status(200).json({ sentiment });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Internal server error' });
     }
-}
-
-module.exports = SentimentAnalysisController;
+};

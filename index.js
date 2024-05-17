@@ -3,7 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const fileRoutes = require('./routes/fileRoutes');
 const authRoutes = require('./routes/authRoutes');
-const sentimentAnalysisRoute = require('./routes/sentimentAnalysisRoute');
+const sentimentRoutes = require('./routes/sentimentAnalysisRoute');
 require('dotenv').config()
 const app = express();
 
@@ -19,7 +19,7 @@ app.use(express.json());
 // Routes
 app.use('/api/files', fileRoutes);
 app.use('/api/auth', authRoutes);
-app.use('/api/analysis', sentimentAnalysisRoute);
+app.use('/api/sentiment', sentimentRoutes);
 
 // Start server
 const PORT = process.env.PORT || 5000;

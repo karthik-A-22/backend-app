@@ -1,22 +1,16 @@
-const { SentimentIntensityAnalyzer } = require('vader-sentiment');
+const vader = require('vader-sentiment');
 
 class SentimentAnalysisModel {
-    constructor() {
-        this.analyzer = new SentimentIntensityAnalyzer();
-    }
-
     analyzeSentiment(text) {
-        const sentimentScore = this.analyzer.polarity_scores(text);
-        let sentiment;
-        if (sentimentScore.compound >= 0.05) {
-            sentiment = 'positive';
-        } else if (sentimentScore.compound <= -0.05) {
-            sentiment = 'negative';
+        const intensity = vader.SentimentIntensityAnalyzer.polarity_scores(text);
+        if (intensity.compound >= 0.05) {
+            return 'positive';
+        } else if (intensity.compound <= -0.05) {
+            return 'negative';
         } else {
-            sentiment = 'neutral';
+            return 'neutral';
         }
-        return sentiment;
     }
 }
 
-module.exports = SentimentAnalysisModel;
+module.exports = new SentimentAnalysisModel();

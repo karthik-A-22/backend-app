@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const SentimentAnalysisController = require('../controllers/SentimentAnalysisController');
+const { authenticateJWT } = require('../middleware/authMiddleware');
 
-const sentimentController = new SentimentAnalysisController();
-
-router.post('/sentiment', sentimentController.analyzeSentiment.bind(sentimentController));
+router.post('/analyze', authenticateJWT, SentimentAnalysisController.analyzeSentiment);
 
 module.exports = router;

@@ -65,7 +65,7 @@ The application follows a typical MVC (Model-View-Controller) architecture:
 
 ### Sentiment Analysis
 
-- **POST /api/sentiment**
+- **POST /api/sentiment/analyze**
   - **Description**: Analyzes the sentiment of the provided text.
   - **Request Body**:
     ```json
